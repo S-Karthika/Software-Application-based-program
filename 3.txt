@@ -1,0 +1,291 @@
+#include <stdio.h>
+
+#define CLEAR(x) memset(x,'\0',1000)
+
+
+
+struct Application 
+
+{
+   
+char name[50];
+  
+char author[50];
+   
+char version[100];
+   
+int published_year;
+   
+int price;
+
+};
+
+
+
+void printApplication(struct Application app ) 
+{
+   
+printf("\n********\n");
+   
+printf( "Application name : %s\n", app.name);
+   
+printf( "author : %s\n", app.author);
+   
+printf( "version : %s\n", app.version);
+   
+printf( "published on : %d\n", app.published_year);
+   
+printf( "price : %d\n", app.price);
+   
+printf("********\n");
+
+}
+
+
+int main()
+
+{
+   
+struct Application app_list[100];
+   
+int app_size = 0;
+   
+int user_value;
+   
+   
+for(;user_value!=4;) 
+   
+{
+      
+printf("\n list of applications:");
+      
+printf("\n 1. add application \n 2. list application \n 3. list based on search & sort by \n 4. exit");
+      
+printf("\n enter value of Application : ");
+      
+scanf("%d", &user_value);
+      
+    
+int searchby;
+    
+int sortby;
+    
+char author_name_to_search[50];
+    
+int year_to_search=0;
+    
+int loopcase=0;
+    
+char author_name_to_sort[50];
+    
+int price_to_sort=0;
+    
+int min_price=0;
+    
+    
+int matched_indexes[100];
+    
+int sorted_matched_indexes[100];
+    
+int matched_indexes_last_index=0;
+   
+      
+      
+switch (user_value) 
+      
+{
+          
+          
+case 1:
+            
+printf("\n Application name : ");
+            
+scanf("%s", &app_list[app_size].name);
+            
+            
+printf("\n Author : ");
+            
+scanf("%s", &app_list[app_size].author);
+            
+            
+printf("\n version of Application :  ");
+           
+scanf("%s", &app_list[app_size].version);
+            
+           
+printf("\n Published year : ");
+           
+scanf("%d", &app_list[app_size].published_year);
+            
+            
+printf("\n Application price : ");
+            
+scanf("%d", &app_list[app_size].price);
+            
+            
+app_size++;
+            
+            
+break;
+          
+case 2:
+            
+            
+for (int dummy = 0; dummy <app_size; dummy++) 
+{
+              
+printApplication(app_list[dummy]);
+            
+}
+            
+break;
+          
+case 3:
+            
+            
+do 
+{
+                
+printf("search by ?\n 1. author name \n 2. published year \n 3. enough\n");    
+                
+scanf("%d", &searchby);
+                    
+                
+switch (searchby) 
+                
+{
+                    
+case 1:
+                    
+printf("\n Enter author name to search: ");
+                    
+scanf("%s", &author_name_to_search);
+                    
+break;
+                    
+case 2:
+                    
+printf("\n Enter published year to search: ");
+                    
+scanf("%d", &year_to_search);
+                    
+break;
+                    
+case 3:
+                    
+loopcase = 3;
+                    
+break;
+                
+}
+            
+}
+ while(loopcase!=3);
+            
+            
+printf("\n searching with author : \n%s year: %d\n", author_name_to_search, year_to_search);
+            
+            printf("\n sort by ?\n 1. author name \n 2. price\n");    
+            
+scanf("%d", &sortby);
+            
+            
+for (int dummy = 0; dummy <app_size; dummy++) 
+            
+{
+              
+              
+if (strcmp(author_name_to_search, app_list[dummy].author) != 0) 
+              
+{
+                  
+continue;
+              
+}
+              
+              
+if (year_to_search != 0 && app_list[dummy].published_year != year_to_search) 
+              
+{
+                  
+continue;
+              
+}
+              
+matched_indexes[matched_indexes_last_index] = dummy;
+              
+matched_indexes_last_index++;
+              
+            
+printf("\n sorting with %d", sortby);
+            
+            
+switch (sortby) 
+{
+                
+case 1:
+                  
+                
+break;
+                
+case 2:
+                    
+min_price=0;
+                    
+                   
+for (int index=0; index<matched_indexes_last_index; index++) 
+                   
+{
+                       
+                        
+if (min_price==0)
+{
+                            
+min_price = app_list[matched_indexes[index]].price;
+                        
+} 
+                        
+else if (min_price>app_list[matched_indexes[index]].price) 
+                        
+{
+                            
+min_price = app_list[matched_indexes[index]].price;
+                        
+}
+                    
+                    
+}
+                    
+printf("min_price is %d", min_price);
+                
+break;
+                
+default:
+                    
+for (int index=0; index<matched_indexes_last_index; index++) 
+                    
+{
+
+printApplication(app_list[matched_indexes[index]]);
+                    
+}
+            
+}
+                    
+break;
+            
+}
+            
+break;
+          
+case 4:
+            
+return 0; 
+      
+}
+   
+}
+   
+return 0;
+
+}
